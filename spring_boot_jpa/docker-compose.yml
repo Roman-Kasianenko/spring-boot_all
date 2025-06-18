@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: spring-data-jpa-postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: bender
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bender
+    ports:
+      - "5334:5432"
+    restart: unless-stopped
+    volumes:
+      - db:/data/postgres
+    networks:
+      - bender
+
+networks:
+  bender:
+    driver: bridge
+
+volumes:
+  db:

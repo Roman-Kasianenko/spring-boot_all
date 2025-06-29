@@ -1,5 +1,6 @@
-package com.bender;
+package com.bender.studentidcard;
 
+import com.bender.student.Student;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;

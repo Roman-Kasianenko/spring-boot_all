@@ -1,9 +1,9 @@
-package com.bender;
+package com.bender.book;
 
+import com.bender.student.Student;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
-import java.util.Objects;
 
 @Entity
 public class Book {

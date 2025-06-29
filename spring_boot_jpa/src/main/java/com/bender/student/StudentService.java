@@ -1,4 +1,4 @@
-package com.bender;
+package com.bender.student;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,12 @@
 package com.bender;
 
+import com.bender.book.Book;
+import com.bender.book.BookRepository;
+import com.bender.student.Student;
+import com.bender.student.StudentRepository;
+import com.bender.student.StudentService;
+import com.bender.studentidcard.StudentIdCard;
+import com.bender.studentidcard.StudentIdCardRepository;
 import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

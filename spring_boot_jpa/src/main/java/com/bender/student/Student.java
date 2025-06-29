@@ -1,5 +1,7 @@
-package com.bender;
+package com.bender.student;
 
+import com.bender.book.Book;
+import com.bender.studentidcard.StudentIdCard;
 import jakarta.persistence.*;
 
 import java.util.HashSet;

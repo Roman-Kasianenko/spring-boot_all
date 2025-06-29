@@ -1,4 +1,4 @@
-package com.bender;
+package com.bender.book;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -2,6 +2,8 @@ package com.bender;
 
 import com.bender.book.Book;
 import com.bender.book.BookRepository;
+import com.bender.course.Course;
+import com.bender.course.CourseRepository;
 import com.bender.student.Student;
 import com.bender.student.StudentRepository;
 import com.bender.student.StudentService;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,10 +35,33 @@ public class App {
             StudentRepository studentRepository,
             StudentIdCardRepository studentIdCardRepository,
             BookRepository bookRepository,
-            StudentService studentService) {
+            StudentService studentService,
+            CourseRepository courseRepository) {
 
         return args -> {
-            oneToManyExample2(studentRepository, bookRepository);
+            Student roman = new Student(
+                    "Roman", "Kas", 35, "sdsd@Dsd.cd"
+            );
+
+            Student alex = new Student(
+                    "Alex", "B", 35, "alex@Dsd.cd"
+            );
+
+            Course course = new Course(
+                    "Computer Science", "Informatics"
+            );
+
+            Course aiCourse = new Course(
+                    "Artificial Intelligence", "Informatics"
+            );
+
+            roman.addCourse(course);
+            roman.addCourse(aiCourse);
+            alex.addCourse(course);
+
+            studentRepository.saveAll(List.of(roman, alex));
+
+            System.out.println("courses size - " + courseRepository.count());
 
         };
     }

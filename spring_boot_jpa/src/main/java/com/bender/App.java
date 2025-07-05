@@ -42,54 +42,68 @@ public class App {
             CourseEnrollmentRepository courseEnrollmentRepository) {
 
         return args -> {
-            Student roman = new Student(
-                    "Roman", "Kas", 35, "sdsd@Dsd.cd"
-            );
-
-            Student alex = new Student(
-                    "Alex", "B", 35, "alex@Dsd.cd"
-            );
-
-
-
-            Course course = new Course(
-                    "Computer Science", "Informatics"
-            );
-
-            Course aiCourse = new Course(
-                    "Artificial Intelligence", "Informatics"
-            );
-
-            roman.addCourseEnrollment(course);
-            roman.addCourseEnrollment(aiCourse);
-            aiCourse.addCourseEnrollment(alex);
-
-            studentRepository.saveAll(List.of(roman, alex));
-
-            courseEnrollmentRepository.findAll().forEach(courseEnrollment -> {
-                System.out.println(courseEnrollment.getCourseEnrollmentId() );
-                System.out.printf("%s, %s%n",
-                        courseEnrollment.getStudent().getFirstName(),
-                        courseEnrollment.getCourse().getName());
-                System.out.println();
-            });
-
-            System.out.println("courses size - " + courseRepository.count());
-
-            System.out.println("\nRemove AI course from Roman\n");
-            roman.removeCourseEnrollment(aiCourse);
-            studentRepository.save(roman);
-            courseEnrollmentRepository.findAll().forEach(courseEnrollment -> {
-                System.out.println(courseEnrollment.getCourseEnrollmentId() );
-                System.out.printf("%s, %s%n",
-                        courseEnrollment.getStudent().getFirstName(),
-                        courseEnrollment.getCourse().getName());
-                System.out.println();
-            });
-
-            System.out.println("courses size - " + courseRepository.count());
 
         };
+    }
+
+    private static void checkingSoftDelete(StudentRepository studentRepository) {
+        Student roman = new Student(
+                "Roman", "Kas", 35, "sdsd@Dsd.cd"
+        );
+
+        studentRepository.save(roman);
+        System.out.println(studentRepository.findById(1L));
+
+        studentRepository.delete(roman);
+        System.out.println(studentRepository.findById(1L));
+    }
+
+    private static void embedingSectionExample(StudentRepository studentRepository, CourseRepository courseRepository, CourseEnrollmentRepository courseEnrollmentRepository) {
+        Student roman = new Student(
+                "Roman", "Kas", 35, "sdsd@Dsd.cd"
+        );
+
+        Student alex = new Student(
+                "Alex", "B", 35, "alex@Dsd.cd"
+        );
+
+
+        Course course = new Course(
+                "Computer Science", "Informatics"
+        );
+
+        Course aiCourse = new Course(
+                "Artificial Intelligence", "Informatics"
+        );
+
+        roman.addCourseEnrollment(course);
+        roman.addCourseEnrollment(aiCourse);
+        aiCourse.addCourseEnrollment(alex);
+
+        studentRepository.saveAll(List.of(roman, alex));
+
+        courseEnrollmentRepository.findAll().forEach(courseEnrollment -> {
+            System.out.println(courseEnrollment.getCourseEnrollmentId() );
+            System.out.printf("%s, %s%n",
+                    courseEnrollment.getStudent().getFirstName(),
+                    courseEnrollment.getCourse().getName());
+            System.out.println();
+        });
+
+        System.out.println("courses size - " + courseRepository.count());
+
+        System.out.println("\nRemove AI course from Roman\n");
+        roman.removeCourseEnrollment(aiCourse);
+        studentRepository.save(roman);
+        courseEnrollmentRepository.findAll().forEach(courseEnrollment -> {
+            System.out.println(courseEnrollment.getCourseEnrollmentId() );
+            System.out.printf("%s, %s%n",
+                    courseEnrollment.getStudent().getFirstName(),
+                    courseEnrollment.getCourse().getName());
+            System.out.println();
+        });
+
+        System.out.println("courses size - " + courseRepository.count());
     }
 
     private static void oneToManyExample2(StudentRepository studentRepository, BookRepository bookRepository) {

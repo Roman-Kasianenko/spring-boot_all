@@ -5,13 +5,22 @@ import com.bender.course.Course;
 import com.bender.courseenrollment.CourseEnrollment;
 import com.bender.studentidcard.StudentIdCard;
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table
+@SQLDelete(
+        sql = "update student set deleted_at = now() where id = ?"
+)
+@SQLRestriction(
+        "deleted_at is null"
+)
 public class Student {
 
     @Id
@@ -59,6 +68,8 @@ public class Student {
             orphanRemoval = true
     )
     private Set<CourseEnrollment> courseEnrollments = new HashSet<>();
+
+    private ZonedDateTime deletedAt;
 
     public Student() {
     }
@@ -159,6 +170,14 @@ public class Student {
         }
     }
 
+    public ZonedDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(ZonedDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -179,6 +198,7 @@ public class Student {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
+                ", deletedAt=" + deletedAt +
                 '}';
     }
 }

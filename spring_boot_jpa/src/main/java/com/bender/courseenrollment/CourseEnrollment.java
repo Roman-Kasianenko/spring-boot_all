@@ -4,6 +4,8 @@ import com.bender.course.Course;
 import com.bender.student.Student;
 import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
+
 @Entity
 public class CourseEnrollment {
 
@@ -30,6 +32,8 @@ public class CourseEnrollment {
     @MapsId("courseId")
     private Course course;
 
+    @Column(nullable = false)
+    private ZonedDateTime createdAt;
 
     public CourseEnrollment() {
     }
@@ -62,5 +66,18 @@ public class CourseEnrollment {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    void prePersist(){
+        this.createdAt = ZonedDateTime.now();
     }
 }

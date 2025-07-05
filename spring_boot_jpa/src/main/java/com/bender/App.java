@@ -50,7 +50,7 @@ public class App {
                     "Alex", "B", 35, "alex@Dsd.cd"
             );
 
-            studentRepository.saveAll(List.of(roman, alex));
+
 
             Course course = new Course(
                     "Computer Science", "Informatics"
@@ -60,16 +60,25 @@ public class App {
                     "Artificial Intelligence", "Informatics"
             );
 
-            courseRepository.saveAll(List.of(course, aiCourse));
+            roman.addCourseEnrollment(course);
+            roman.addCourseEnrollment(aiCourse);
+            aiCourse.addCourseEnrollment(alex);
 
-            courseEnrollmentRepository.saveAll(
-                    List.of(
-                            new CourseEnrollment(roman, course),
-                            new CourseEnrollment(roman, aiCourse),
-                            new CourseEnrollment(alex, aiCourse)
-                    )
-            );
+            studentRepository.saveAll(List.of(roman, alex));
 
+            courseEnrollmentRepository.findAll().forEach(courseEnrollment -> {
+                System.out.println(courseEnrollment.getCourseEnrollmentId() );
+                System.out.printf("%s, %s%n",
+                        courseEnrollment.getStudent().getFirstName(),
+                        courseEnrollment.getCourse().getName());
+                System.out.println();
+            });
+
+            System.out.println("courses size - " + courseRepository.count());
+
+            System.out.println("\nRemove AI course from Roman\n");
+            roman.removeCourseEnrollment(aiCourse);
+            studentRepository.save(roman);
             courseEnrollmentRepository.findAll().forEach(courseEnrollment -> {
                 System.out.println(courseEnrollment.getCourseEnrollmentId() );
                 System.out.printf("%s, %s%n",

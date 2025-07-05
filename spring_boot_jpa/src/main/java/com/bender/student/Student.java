@@ -2,6 +2,7 @@ package com.bender.student;
 
 import com.bender.book.Book;
 import com.bender.course.Course;
+import com.bender.courseenrollment.CourseEnrollment;
 import com.bender.studentidcard.StudentIdCard;
 import jakarta.persistence.*;
 
@@ -52,25 +53,11 @@ public class Student {
     )
     private Set<Book> books = new HashSet<>();
 
-    @ManyToMany(
-            cascade = {CascadeType.PERSIST}
+    @OneToMany(
+            cascade = {CascadeType.PERSIST},
+            mappedBy = "student"
     )
-    @JoinTable(
-            name = "course_enrollment",
-            joinColumns = @JoinColumn(
-                    name = "student_id",
-                    foreignKey = @ForeignKey(
-                            name = "enrollment_student_id_fk"
-                    )
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "course_id",
-                    foreignKey = @ForeignKey(
-                            name = "enrollment_course_id_fk"
-                    )
-            )
-    )
-    private Set<Course> courses = new HashSet<>();
+    private Set<CourseEnrollment> courseEnrollments = new HashSet<>();
 
     public Student() {
     }
@@ -141,27 +128,27 @@ public class Student {
         this.books = books;
     }
 
-    public Set<Course> getCourses() {
-        return courses;
+    public Set<CourseEnrollment> getCourseEnrollments() {
+        return courseEnrollments;
     }
 
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public void setCourseEnrollments(Set<CourseEnrollment> courseEnrollments) {
+        this.courseEnrollments = courseEnrollments;
     }
 
-    public void addCourse(Course course) {
-        if (!this.courses.contains(course)) {
-            this.courses.add(course);
-            course.enroll(this);
-        }
-    }
-
-    public void removeCourse(Course course) {
-        if (this.courses.contains(course)) {
-            this.courses.remove(course);
-            course.removeStudent(this);
-        }
-    }
+    //    public void addCourse(Course course) {
+//        if (!this.courses.contains(course)) {
+//            this.courses.add(course);
+//            course.enroll(this);
+//        }
+//    }
+//
+//    public void removeCourse(Course course) {
+//        if (this.courses.contains(course)) {
+//            this.courses.remove(course);
+//            course.removeStudent(this);
+//        }
+//    }
 
     public void addBook(Book book) {
         if (!this.books.contains(book)) {

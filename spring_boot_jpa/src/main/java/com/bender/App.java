@@ -4,6 +4,8 @@ import com.bender.book.Book;
 import com.bender.book.BookRepository;
 import com.bender.course.Course;
 import com.bender.course.CourseRepository;
+import com.bender.courseenrollment.CourseEnrollment;
+import com.bender.courseenrollment.CourseEnrollmentRepository;
 import com.bender.student.Student;
 import com.bender.student.StudentRepository;
 import com.bender.student.StudentService;
@@ -36,7 +38,8 @@ public class App {
             StudentIdCardRepository studentIdCardRepository,
             BookRepository bookRepository,
             StudentService studentService,
-            CourseRepository courseRepository) {
+            CourseRepository courseRepository,
+            CourseEnrollmentRepository courseEnrollmentRepository) {
 
         return args -> {
             Student roman = new Student(
@@ -47,6 +50,8 @@ public class App {
                     "Alex", "B", 35, "alex@Dsd.cd"
             );
 
+            studentRepository.saveAll(List.of(roman, alex));
+
             Course course = new Course(
                     "Computer Science", "Informatics"
             );
@@ -55,11 +60,23 @@ public class App {
                     "Artificial Intelligence", "Informatics"
             );
 
-            roman.addCourse(course);
-            roman.addCourse(aiCourse);
-            alex.addCourse(course);
+            courseRepository.saveAll(List.of(course, aiCourse));
 
-            studentRepository.saveAll(List.of(roman, alex));
+            courseEnrollmentRepository.saveAll(
+                    List.of(
+                            new CourseEnrollment(roman, course),
+                            new CourseEnrollment(roman, aiCourse),
+                            new CourseEnrollment(alex, aiCourse)
+                    )
+            );
+
+            courseEnrollmentRepository.findAll().forEach(courseEnrollment -> {
+                System.out.println(courseEnrollment.getCourseEnrollmentId() );
+                System.out.printf("%s, %s%n",
+                        courseEnrollment.getStudent().getFirstName(),
+                        courseEnrollment.getCourse().getName());
+                System.out.println();
+            });
 
             System.out.println("courses size - " + courseRepository.count());
 

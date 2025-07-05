@@ -1,5 +1,6 @@
 package com.bender.course;
 
+import com.bender.courseenrollment.CourseEnrollment;
 import com.bender.student.Student;
 import jakarta.persistence.*;
 
@@ -43,10 +44,11 @@ public class Course {
         this.department = department;
     }
 
-    @ManyToMany(
-            mappedBy = "courses"
+    @OneToMany(
+            cascade = {CascadeType.PERSIST},
+            mappedBy = "course"
     )
-    private Set<Student> students = new HashSet<>();
+    private Set<CourseEnrollment> courseEnrollments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -72,25 +74,25 @@ public class Course {
         this.department = department;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    public Set<CourseEnrollment> getCourseEnrollments() {
+        return courseEnrollments;
     }
 
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setCourseEnrollments(Set<CourseEnrollment> courseEnrollments) {
+        this.courseEnrollments = courseEnrollments;
     }
 
-    public void enroll(Student student) {
-        if (!this.students.contains(student)) {
-            this.students.add(student);
-        }
-    }
-
-    public void removeStudent(Student student) {
-        if (this.students.contains(student)) {
-            this.students.remove(student);
-        }
-    }
+    //    public void enroll(Student student) {
+//        if (!this.students.contains(student)) {
+//            this.students.add(student);
+//        }
+//    }
+//
+//    public void removeStudent(Student student) {
+//        if (this.students.contains(student)) {
+//            this.students.remove(student);
+//        }
+//    }
 
     @Override
     public boolean equals(Object o) {

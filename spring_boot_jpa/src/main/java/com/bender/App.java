@@ -44,28 +44,37 @@ public class App {
             CourseEnrollmentRepository courseEnrollmentRepository) {
 
         return args -> {
-            Student roman = new Student(
-                    "Roman", "Kas", 35, "sdsd@Dsd.cd"
-            );
-
-            roman = studentRepository.save(roman);
-
-            System.out.println(studentRepository.findById(1L));
-
-            Thread.sleep(1000);
-
-            roman.setAge(35);
-            roman = studentRepository.save(roman);
-
-            studentRepository.delete(roman);
-            System.out.println(studentRepository.findById(1L));
-
-            System.out.println("Created by: " + roman.getCreatedBy());
-            System.out.println("Created at: " + roman.getCreatedAt());
-            System.out.println("Modified by: " + roman.getLastModifiedBy());
-            System.out.println("Modified at : " + roman.getModifiedAt());
-
         };
+    }
+
+    private static void dtoExamples(StudentRepository studentRepository, BookRepository bookRepository) throws InterruptedException {
+        Student roman = new Student(
+                "Roman", "Kas", 35, "sdsd@Dsd.cd"
+        );
+
+        roman = studentRepository.save(roman);
+
+        System.out.println(studentRepository.findById(1L));
+
+        Thread.sleep(1000);
+
+        roman.setAge(35);
+        roman = studentRepository.save(roman);
+
+//            studentRepository.delete(roman);
+//            System.out.println(studentRepository.findById(1L));
+
+        System.out.println("Created by: " + roman.getCreatedBy());
+        System.out.println("Created at: " + roman.getCreatedAt());
+        System.out.println("Modified by: " + roman.getLastModifiedBy());
+        System.out.println("Modified at : " + roman.getModifiedAt());
+
+        Book book = new Book();
+        book.setTitle("First book");
+        book.setStudent(roman);
+        book = bookRepository.save(book);
+
+        bookRepository.getAllBooksDto().forEach(System.out::println);
     }
 
     private static void checkingSoftDelete(StudentRepository studentRepository) {

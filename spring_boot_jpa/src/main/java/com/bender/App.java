@@ -20,12 +20,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class App {
 
     public static void main(String[] args) {
@@ -42,6 +44,26 @@ public class App {
             CourseEnrollmentRepository courseEnrollmentRepository) {
 
         return args -> {
+            Student roman = new Student(
+                    "Roman", "Kas", 35, "sdsd@Dsd.cd"
+            );
+
+            roman = studentRepository.save(roman);
+
+            System.out.println(studentRepository.findById(1L));
+
+            Thread.sleep(1000);
+
+            roman.setAge(35);
+            roman = studentRepository.save(roman);
+
+            studentRepository.delete(roman);
+            System.out.println(studentRepository.findById(1L));
+
+            System.out.println("Created by: " + roman.getCreatedBy());
+            System.out.println("Created at: " + roman.getCreatedAt());
+            System.out.println("Modified by: " + roman.getLastModifiedBy());
+            System.out.println("Modified at : " + roman.getModifiedAt());
 
         };
     }

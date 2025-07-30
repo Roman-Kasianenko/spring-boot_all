@@ -5,6 +5,7 @@ import com.bender.student.Student;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 @Entity
 public class CourseEnrollment {
@@ -79,5 +80,17 @@ public class CourseEnrollment {
     @PrePersist
     void prePersist(){
         this.createdAt = ZonedDateTime.now();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CourseEnrollment that = (CourseEnrollment) o;
+        return Objects.equals(courseEnrollmentId, that.courseEnrollmentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(courseEnrollmentId);
     }
 }

@@ -1,5 +1,8 @@
 package com.bender;
 
+import com.bender.account.Account;
+import com.bender.account.AccountRepository;
+import com.bender.account.AccountService;
 import com.bender.book.Book;
 import com.bender.book.BookRepository;
 import com.bender.course.Course;
@@ -22,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -41,9 +45,24 @@ public class App {
             BookRepository bookRepository,
             StudentService studentService,
             CourseRepository courseRepository,
-            CourseEnrollmentRepository courseEnrollmentRepository) {
+            CourseEnrollmentRepository courseEnrollmentRepository,
+            AccountRepository accountRepository,
+            AccountService accountService) {
 
         return args -> {
+            Account account = new Account();
+            account.setBalance(new BigDecimal("100"));
+            accountRepository.save(account);
+
+            Account accountB = new Account();
+            accountB.setBalance(new BigDecimal("100"));
+            accountRepository.save(accountB);
+
+            accountService.transfer(account, accountB, new BigDecimal("50"));
+
+            accountRepository.findAll().forEach(a -> {
+                System.out.println(a.getId() + " - " + a.getBalance());
+            });
         };
     }
 

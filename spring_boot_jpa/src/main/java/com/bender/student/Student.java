@@ -234,12 +234,12 @@ public class Student {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(firstName, student.firstName) && Objects.equals(lastName, student.lastName) && Objects.equals(age, student.age) && Objects.equals(email, student.email) && Objects.equals(studentIdCard, student.studentIdCard);
+        return Objects.equals(id, student.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, age, email, studentIdCard);
+        return Objects.hashCode(id);
     }
 
     @Override
@@ -251,6 +251,10 @@ public class Student {
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", deletedAt=" + deletedAt +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", createdBy='" + createdBy + '\'' +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.bender;
 
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -18,5 +19,10 @@ public class BookController {
     @QueryMapping
     public Optional<Book> bookById(@Argument Integer id) {
         return Book.bookById(id);
+    }
+
+    @SchemaMapping
+    public Optional<Author> author(Book book) {
+        return Author.authorById(book.authorId());
     }
 }

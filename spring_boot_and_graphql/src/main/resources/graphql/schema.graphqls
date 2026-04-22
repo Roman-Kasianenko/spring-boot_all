@@ -7,4 +7,10 @@ type Book {
     id: Int!
     name: String!
     pageCount: Int!
+    author: Author
+}
+
+type Author {
+    id: Int
+    name: String
 }
